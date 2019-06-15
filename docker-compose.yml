@@ -1,15 +1,15 @@
 version: '3.3'
 
 services: 
-        mongo_db: 
+        post_db: 
                 image: mongo:3.2 
                 volumes: 
                         - post_db:/data/db 
                 networks: 
-                        reddit: 
-                                aliases: 
-                                        - post_db 
-                                        - comment_db 
+                        reddit:
+                                aliases:
+                                        - comment_db
+                                        - post_db  
         ui: 
                 build: ./ui 
                 image: ${USERNAME}/ui:1.0 
@@ -21,12 +21,16 @@ services:
                 build: ./post-py 
                 image: ${USERNAME}/post:1.0 
                 networks: 
-                        - reddit 
+                        reddit:
+                                aliases:
+                                        - post
         comment: 
                 build: ./comment 
                 image: ${USERNAME}/comment:1.0 
                 networks: 
-                        - reddit 
+                        reddit:
+                                aliases:
+                                        - comment
 volumes: 
         post_db:  
 
